@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const Application = require("../model/Application");
 const Job = require('../model/Job');
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 // Add a application for job
 exports.applyJob = async (req, res) => {
     try {
@@ -45,8 +47,8 @@ exports.getAllApplications = async (req, res) => {
 
         const updatedApplications = applications.map(app => ({
             ...app._doc,
-            resume: app.resume ? `http://localhost:5000/uploads/${app.resume}` : null,
-            coverLetter: app.coverLetter ? `http://localhost:5000/uploads/${app.coverLetter}` : null
+            resume: app.resume ? `${API_URL}/uploads/${app.resume}` : null,
+            coverLetter: app.coverLetter ? `${API_URL}/uploads/${app.coverLetter}` : null
         }));
         res.json(updatedApplications);
     } catch (error) {
