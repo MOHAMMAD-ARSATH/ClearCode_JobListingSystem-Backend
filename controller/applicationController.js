@@ -30,10 +30,10 @@ exports.applyJob = async (req, res) => {
         name,
         email,
         contact,
-        gender; gender || null,
+        gender: gender!=null ? gender : null,
         address,
         resume: `${API_URL}/uploads/${resumeFile}`,
-        coverLetter: `${API_URL}/uploads/${coverLetterFile}` || null,
+        coverLetter: coverLetterFile!=null ? `${API_URL}/uploads/${coverLetterFile}`: null ,
         jobs: jobDoc._id,
       });
   
