@@ -10,7 +10,7 @@ exports.applyJob = async (req, res) => {
     try {
       const { name, email, contact, gender, address, job } = req.body;
   
-      if (!name || !email || !contact || !gender || !address || !req.files?.resume) {
+      if (!name || !email || !contact || !address || !req.files?.resume) {
         return res.status(400).json({ message: "All fields are required" });
       }
   
