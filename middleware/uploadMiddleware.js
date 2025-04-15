@@ -29,7 +29,8 @@ if (process.env.USE_CLOUDINARY === 'true') {
       return {
         folder: 'job_applications',
         resource_type: 'raw',
-        public_id: `${Date.now()}-${name}${ext}`, 
+        // public_id: `${Date.now()}-${name}${ext}`, 
+        public_id: `${Date.now()}-${name}`,
         use_filename: true,
         unique_filename: false
       };
