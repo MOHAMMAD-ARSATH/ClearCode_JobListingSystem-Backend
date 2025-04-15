@@ -5,13 +5,19 @@ const Job = require('../model/Job');
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-// Add a application for job
 exports.applyJob = async (req, res) => {
   try {
+    console.log("BODY RECEIVED:", req.body);
+    console.log("FILES RECEIVED:", req.files);
+
     const { name, email, contact, gender, address, job } = req.body;
 
-    if (!name || !email || !contact || !address || !req.files?.resume) {
-      return res.status(400).json({ message: "All required fields must be provided including resume" });
+    if (!name || !email || !contact || !address) {
+      return res.status(400).json({ message: "All required fields must be provided" });
+    }
+
+    if (!req.files || !req.files.resume || !req.files.resume[0]) {
+      return res.status(400).json({ message: "Resume is required" });
     }
 
     if (!mongoose.Types.ObjectId.isValid(job)) {
@@ -23,24 +29,26 @@ exports.applyJob = async (req, res) => {
       return res.status(404).json({ message: "Job not found" });
     }
 
-    const isCloudinary = process.env.USE_CLOUDINARY === 'true';
+    const isCloudinary = process.env.USE_CLOUDINARY === "true";
 
-    const resumeFile = req.files["resume"]?.[0];
-    const coverLetterFile = req.files["coverLetter"]?.[0];
+    const resumeFile = req.files.resume[0];
+    const resume = isCloudinary ? resumeFile.path : `${API_URL}/uploads/${resumeFile.filename}`;
 
-    const resume = isCloudinary ? resumeFile?.path : resumeFile?.filename;
-    const coverLetter = isCloudinary ? coverLetterFile?.path : coverLetterFile?.filename;
-
-    console.log("Uploaded Files => Resume:", resume, " | Cover Letter:", coverLetter);
+    const coverLetterFile = req.files?.coverLetter?.[0];
+    const coverLetter = coverLetterFile
+      ? isCloudinary
+        ? coverLetterFile.path
+        : `${API_URL}uploads/${coverLetterFile.filename}`
+      : null;
 
     const newApplication = new Application({
       name,
       email,
       contact,
-      gender: gender !== "" ? gender : null,
+      gender: gender != "" ? gender : null,
       address,
       resume,
-      coverLetter: coverLetter || null,
+      coverLetter,
       jobs: jobDoc._id,
     });
 
@@ -48,11 +56,10 @@ exports.applyJob = async (req, res) => {
 
     res.status(200).json({ message: "Application submitted successfully" });
   } catch (error) {
-    console.error("❌ Error submitting application:", error.message, "\nStack Trace:", error.stack);
+    console.error("❌ Error submitting application:", error.message);
     res.status(500).json({
       message: "Server error while submitting application",
       error: error.message,
-      stack: error.stack
     });
   }
 };
