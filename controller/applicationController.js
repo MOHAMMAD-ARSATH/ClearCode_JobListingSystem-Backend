@@ -33,6 +33,7 @@ exports.applyJob = async (req, res) => {
 
     const resumeFile = req.files.resume[0];
     const resume = isCloudinary ? resumeFile.path : `${API_URL}/uploads/${resumeFile.filename}`;
+    console.log("✔ Resume File Path:", resumeFile.path);
 
     const coverLetterFile = req.files?.coverLetter?.[0];
     const coverLetter = coverLetterFile
