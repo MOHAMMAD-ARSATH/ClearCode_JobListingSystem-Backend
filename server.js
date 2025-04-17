@@ -3,6 +3,7 @@ const cors = require("cors");
 const path = require("path");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const fileUpload = require('express-fileupload');
 
 require("./config/db");
 
@@ -19,6 +20,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type"]
 }));
 app.use(morgan("dev"));
+app.use(fileUpload());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
