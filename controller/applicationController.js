@@ -9,6 +9,7 @@ exports.applyJob = async (req, res) => {
   try {
     console.log("BODY RECEIVED:", req.body);
     console.log("FILES RECEIVED:", req.files);
+    console.log('RESUME RECEIVED:', req.files.resume);
 
     const { name, email, contact, gender, address, job } = req.body;
 
