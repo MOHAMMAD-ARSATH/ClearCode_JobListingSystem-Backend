@@ -20,7 +20,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type"]
 }));
 app.use(morgan("dev"));
-app.use(fileUpload());
+// app.use(fileUpload());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
