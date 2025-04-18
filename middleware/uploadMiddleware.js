@@ -29,8 +29,7 @@ if (process.env.USE_CLOUDINARY === 'true') {
       return {
         folder: 'job_applications',
         resource_type: 'raw',
-        // public_id: `${Date.now()}-${name}${ext}`, 
-        public_id: `${Date.now()}-${name}`,
+        public_id: `${Date.now()}-${name}${ext}`, 
         use_filename: true,
         unique_filename: false
       };
@@ -67,18 +66,18 @@ if (process.env.USE_CLOUDINARY === 'true') {
     }
   });
 
-upload = multer({
-  storage: localStorage,  
-  limits: { fileSize: 5 * 1024 * 1024 }, 
-  fileFilter: (req, file, cb) => {
-    console.log("Uploading file:", file);
-    if (allowedMimeTypes.includes(file.mimetype)) {
-      cb(null, true);
-    } else {
-      console.log('❌ Blocked file:', file.originalname, '| Type:', file.mimetype);
-      cb(new Error('Only PDF, DOC, and DOCX files are allowed'));
+  upload = multer({
+    storage: localStorage,
+    limits: { fileSize: 5 * 1024 * 1024 }, 
+    fileFilter: (req, file, cb) => {
+      if (allowedMimeTypes.includes(file.mimetype)) {
+        cb(null, true);
+      } else {
+        console.log('❌ Blocked file:', file.originalname, '| Type:', file.mimetype);
+        cb(new Error('Only PDF, DOC, and DOCX files are allowed'));
+      }
     }
-  }
-});
+  });
+}
 
 module.exports = upload;
