@@ -11,12 +11,11 @@ const app = express();
 // First, set up static folder for uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// CORS Configuration (ensure the URLs are correct for your production environment)
 app.use(cors({
   origin: ["http://localhost:3000", "https://clear-code-jobs.vercel.app"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type"]
+  allowedHeaders: ["Content-Type", "Authorization"] // Add Authorization if necessary
 }));
 
 app.use(morgan("dev"));
