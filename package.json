@@ -1,7 +1,7 @@
 {
-  "name": "ClearCode-Jobs",
+  "name": "ClearCode",
   "version": "1.0.0",
-  "description": "Aurumm",
+  "description": "JobListingSystem",
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js",
