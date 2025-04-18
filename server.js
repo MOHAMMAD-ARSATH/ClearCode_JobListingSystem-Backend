@@ -7,10 +7,6 @@ require("./config/db");
 
 const app = express();
 
-// ✅ Middleware for non-file routes
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 // ✅ CORS and logger
 app.use(cors({
   origin: ["http://localhost:3000", "https://clear-code-jobs.vercel.app"],
@@ -30,6 +26,10 @@ app.use("/api/job", jobRoutes);
 // ✅ Apply route handles files — multer used inside
 const applicationRoutes = require("./routes/applicationRoute");
 app.use("/api/apply", applicationRoutes);
+
+// ✅ Middleware for non-file routes
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // ✅ Start server
 const PORT = process.env.PORT || 5000;
