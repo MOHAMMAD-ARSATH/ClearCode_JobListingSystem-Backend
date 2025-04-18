@@ -5,6 +5,7 @@ const Job = require('../model/Job');
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+// Apply a new job
 exports.applyJob = async (req, res) => {
   try {
     console.log("BODY RECEIVED:", req.body);
