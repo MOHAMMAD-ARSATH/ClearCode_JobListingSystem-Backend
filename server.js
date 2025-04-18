@@ -2,31 +2,25 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const morgan = require("morgan");
-const bodyParser = require("body-parser");
 
 require("./config/db");
 
 const app = express();
-
-// First, set up static folder for uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
 app.use(cors({
   origin: ["http://localhost:3000", "https://clear-code-jobs.vercel.app"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"] // Add Authorization if necessary
+  allowedHeaders: ["Content-Type"] 
 }));
-
 app.use(morgan("dev"));
 
-// Upload route middleware should be registered here
+// Routes
 const jobRoutes = require("./routes/jobRoute");
 app.use("/api/job", jobRoutes);
 const applicationRoutes = require("./routes/applicationRoute");
 app.use("/api/apply", applicationRoutes);
 
-// Body parsers should come after the upload route
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
