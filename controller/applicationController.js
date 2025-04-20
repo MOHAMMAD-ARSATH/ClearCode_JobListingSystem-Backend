@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const Application = require("../model/Application");
 const Job = require('../model/Job');
+const sendEmail = require("../utils/sendEmail");
+const generateApplicationEmail = require('../utils/emailTemplates');
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -56,6 +58,18 @@ exports.applyJob = async (req, res) => {
     });
 
     await newApplication.save();
+
+    const htmlContent = generateApplicationEmail({
+      name,
+      jobRole: jobDoc.roleName,
+      companyName: jobDoc.companyName,
+    });
+
+    await sendEmail({
+      to: email,
+      subject: "Application Received - ClearCode Careers",
+      html: htmlContent,
+    });
 
     res.status(200).json({ message: "Application submitted successfully" });
   } catch (error) {
