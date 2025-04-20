@@ -95,4 +95,3 @@ const generateApplicationEmail = ({ name, jobRole, companyName }) => {
   };
   
   module.exports = generateApplicationEmail;
-  
