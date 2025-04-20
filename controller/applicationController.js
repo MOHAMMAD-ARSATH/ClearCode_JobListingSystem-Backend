@@ -43,7 +43,7 @@ exports.applyJob = async (req, res) => {
     const coverLetter = coverLetterFile
       ? isCloudinary
         ? coverLetterFile.path
-        : `${API_URL}uploads/${coverLetterFile.filename}`
+        : `${API_URL}/uploads/${coverLetterFile.filename}`
       : null;
 
     const newApplication = new Application({
